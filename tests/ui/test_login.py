@@ -84,6 +84,20 @@ class TestProductsPage:
 
         assert products_page.product_names() == ["机械键盘 Pro"]
 
+    @allure.story("搜索")
+    @allure.title("搜索不存在的商品展示空结果提示")
+    def test_search_no_result(self, page):
+        login_page = LoginPage(page)
+        login_page.goto()
+        products_page = login_page.login(DEMO_USERNAME, DEMO_PASSWORD)
+        products_page.wait_for_url("**/products*")
+
+        products_page.search("不存在的商品")
+
+        assert products_page.locator("no-products").is_visible()
+        assert "没有找到“不存在的商品”" in products_page.text_of("no-products")
+        assert products_page.product_names() == []
+
 
 @allure.epic("ShopLite 电商系统")
 @allure.feature("Web UI - 访问控制")
