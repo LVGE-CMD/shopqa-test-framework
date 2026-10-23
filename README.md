@@ -151,6 +151,30 @@ allure serve reports\allure-results
 
 *54 条用例全部通过，报告里能看到 41 条接口 + 13 条 UI 的分组。*
 
+### 4.5 在 Allure 里看参数化用例的标题
+
+`@allure.title("非法注册参数返回 422：{case[title]}")` 这 4 条用例不在 Overview 里逐条显示，要按功能层级找：
+
+```text
+Behaviors（行为）
+  → ShopLite 电商系统
+    → 认证
+      → 注册
+```
+
+展开后就能看到 4 条不同的标题：
+
+```text
+非法注册参数返回 422：用户名只有 2 个字符
+非法注册参数返回 422：用户名包含中文
+非法注册参数返回 422：密码只有 7 位
+非法注册参数返回 422：密码为空
+```
+
+![Allure 参数化标题](docs/images/08-allure-auth-titles.png)
+
+标题右边的 `{'case_id': 'AUTH-REG-01', ...}` 是 pytest 自动带出的参数值，不是报错。
+
 ---
 
 ## 5. 手工体验被测系统
