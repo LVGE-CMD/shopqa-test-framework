@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}商品 · ShopLite{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">SHOP</p>
+    <h1>今天想买点什么？</h1>
+    <p class="muted">共 {{ products|length }} 件商品，价格以“分”为单位存储，展示时格式化为元。</p>
+  </div>
+  <form class="search" method="get" action="/products" data-testid="search-form">
+    <input type="search" name="q" value="{{ keyword }}" placeholder="搜索商品，例如 键盘"
+           data-testid="search-input" aria-label="搜索商品">
+    <button class="btn" type="submit" data-testid="search-submit">搜索</button>
+  </form>
+</section>
+
+{% if products %}
+<div class="product-grid">
+  {% for p in products %}
+  <article class="product-card" data-testid="product-card-{{ p.id }}">
+    <div class="product-emoji" aria-hidden="true">{{ p.emoji }}</div>
+    <div class="product-body">
+      <div class="product-top">
+        <h2 data-testid="product-name-{{ p.id }}">{{ p.name }}</h2>
+        <span class="price" data-testid="product-price-{{ p.id }}">{{ p.price_cents|money }}</span>
+      </div>
+      <p class="muted">{{ p.description }}</p>
+      <div class="product-bottom">
+        <span class="stock" data-testid="product-stock-{{ p.id }}">库存 {{ p.stock }}</span>
+        <form method="post" action="/cart/add" class="inline-form">
+          <input type="hidden" name="product_id" value="{{ p.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="btn btn-small btn-primary" type="submit"
+                  data-testid="add-to-cart-{{ p.id }}">加入购物车</button>
+        </form>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty" data-testid="no-products">
+  <div class="empty-icon">🔍</div>
+  <h2>没有找到“{{ keyword }}”</h2>
+  <p class="muted">换一个关键词试试，比如“键盘”或“鼠标”。</p>
+  <a class="btn" href="/products">查看全部商品</a>
+</div>
+{% endif %}
+{% endblock %}

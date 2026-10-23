@@ -1,0 +1,23 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ShopQA Smoke" type="PythonConfigurationType" factoryName="Python">
+    <module name="shopqa-test-framework" />
+    <option name="ENV_FILES" value="" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="PYTHONUNBUFFERED" value="1" />
+    </envs>
+    <option name="SDK_HOME" value="" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="IS_MODULE_SDK" value="true" />
+    <option name="ADD_CONTENT_ROOTS" value="true" />
+    <option name="ADD_SOURCE_ROOTS" value="true" />
+    <option name="MODULE_MODE" value="true" />
+    <option name="SCRIPT_NAME" value="pytest" />
+    <option name="PARAMETERS" value="tests -m smoke" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIDE_SCRIPTS" value="false" />
+    <option name="RUN_TOOL" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

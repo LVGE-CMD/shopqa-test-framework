@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 测试产物
+reports/
+allure-results/
+allure-report/
+*.log
+*.whl
+install.log
+run-*.log
+
+# 本地数据库
+shoplite.db
+*.db
+*.db-wal
+*.db-shm
+
+# 本地工具
+tools/
+
+# IDE
+.idea/workspace.xml
+.idea/shelf/
+.idea/httpRequests/
+
+# 系统
+.DS_Store
+Thumbs.db

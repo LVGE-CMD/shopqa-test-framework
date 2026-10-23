@@ -1,0 +1,13 @@
+search:
+  - case_id: PRD-SEARCH-01
+    keyword: usb
+    expected_min: 1
+    should_find: USB-C 扩展坞
+  - case_id: PRD-SEARCH-02
+    keyword: 键盘
+    expected_min: 1
+    should_find: 机械键盘 Pro
+  - case_id: PRD-SEARCH-03
+    keyword: 不存在的商品
+    expected_min: 0
+    should_find: null

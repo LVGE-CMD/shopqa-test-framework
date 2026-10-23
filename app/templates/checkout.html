@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}结算 · ShopLite{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">CHECKOUT</p>
+    <h1>确认订单</h1>
+    <p class="muted">优惠券 QA10：商品小计满 ¥100.00 立减 10%。</p>
+  </div>
+</section>
+
+<div class="checkout-layout">
+  <div class="card">
+    <h2>商品清单</h2>
+    {% for item in cart["items"] %}
+    <div class="checkout-item" data-testid="checkout-item-{{ item.product_id }}">
+      <span class="cart-emoji" aria-hidden="true">{{ item.emoji }}</span>
+      <div>
+        <strong>{{ item.name }}</strong>
+        <p class="muted small">{{ item.quantity }} × {{ item.price_cents|money }}</p>
+      </div>
+      <span>{{ item.line_total_cents|money }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <aside class="card summary">
+    <h2>支付明细</h2>
+    <div class="summary-line">
+      <span>商品小计</span>
+      <span data-testid="checkout-subtotal">{{ cart["subtotal_cents"]|money }}</span>
+    </div>
+
+    <form method="post" action="/checkout" class="stack" data-testid="checkout-form">
+      <label for="coupon_code">优惠券（可选）</label>
+      <input id="coupon_code" name="coupon_code" type="text" value="{{ coupon_code|default('') }}"
+             placeholder="QA10" data-testid="coupon-input" autocomplete="off">
+      <p class="muted small">不填也可以直接下单。</p>
+
+      <button class="btn btn-primary btn-block" type="submit" data-testid="place-order">
+        提交订单
+      </button>
+    </form>
+
+    <p class="muted small">
+      提交后服务端会再次校验库存、计算优惠、写入订单，并清空购物车。
+    </p>
+  </aside>
+</div>
+{% endblock %}

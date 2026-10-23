@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ShopLite{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/products" data-testid="brand">
+      <span class="brand-mark">S</span>
+      <span>Shop<span class="brand-accent">Lite</span></span>
+    </a>
+
+    {% if current_user %}
+    <nav class="nav">
+      <a href="/products" data-testid="nav-products">商品</a>
+      <a href="/orders" data-testid="nav-orders">我的订单</a>
+      <a href="/cart" data-testid="nav-cart" class="cart-link">
+        购物车
+        <span class="badge" data-testid="cart-count">{{ cart_count }}</span>
+      </a>
+      <span class="user" data-testid="current-user">{{ current_user.username }}</span>
+      <a href="/logout" data-testid="logout" class="logout">退出</a>
+    </nav>
+    {% endif %}
+  </header>
+
+  <main class="container">
+    {% if error %}
+    <div class="alert alert-error" data-testid="flash-error" role="alert">{{ error }}</div>
+    {% endif %}
+    {% if message %}
+    <div class="alert alert-success" data-testid="flash-message" role="status">{{ message }}</div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <span>ShopLite</span> · 一个用于 API / UI 自动化测试练习的迷你电商系统
+  </footer>
+</body>
+</html>

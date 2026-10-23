@@ -1,0 +1,48 @@
+auth:
+  invalid_registrations:
+    - case_id: AUTH-REG-01
+      title: 用户名只有 2 个字符
+      username: ab
+      password: Passw0rd!
+      expected_status: 422
+    - case_id: AUTH-REG-02
+      title: 用户名包含中文
+      username: 测试用户
+      password: Passw0rd!
+      expected_status: 422
+    - case_id: AUTH-REG-03
+      title: 密码只有 7 位
+      username: qa_short_pwd
+      password: Pass123
+      expected_status: 422
+    - case_id: AUTH-REG-04
+      title: 密码为空
+      username: qa_empty_pwd
+      password: ""
+      expected_status: 422
+
+cart:
+  invalid_quantities: [0, -1, 100]
+
+coupons:
+  - case_id: ORD-COUPON-01
+    title: 小计刚好 100 元，QA10 可用
+    product_name: 超大桌垫
+    quantity: 2
+    coupon: QA10
+    expected_status: 201
+    expected_discount_cents: 1000
+  - case_id: ORD-COUPON-02
+    title: 小计 39 元，不满 100 元，QA10 不可用
+    product_name: 无线鼠标 Lite
+    quantity: 1
+    coupon: QA10
+    expected_status: 400
+    expected_detail: 优惠券 QA10 需满 ¥100.00 可用
+  - case_id: ORD-COUPON-03
+    title: 不存在的优惠券
+    product_name: 无线鼠标 Lite
+    quantity: 1
+    coupon: NOT_EXIST
+    expected_status: 400
+    expected_detail: 优惠券不存在

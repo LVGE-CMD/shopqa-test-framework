@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}登录 · ShopLite{% endblock %}
+
+{% block content %}
+<section class="login-layout">
+  <div class="login-copy">
+    <p class="eyebrow">QA PORTFOLIO PROJECT</p>
+    <h1>把一次下单，<br><span>拆成可验证的步骤。</span></h1>
+    <p class="lead">
+      登录、挑商品、加购物车、用优惠券、下单、查订单。
+      每一个步骤都有稳定的 <code>data-testid</code>，等着被 Playwright 点一遍。
+    </p>
+    <ul class="feature-list">
+      <li><strong>API</strong> 用 requests + pytest 验证业务规则</li>
+      <li><strong>UI</strong> 用 Playwright + Page Object 跑真实浏览器</li>
+      <li><strong>数据</strong> 用 SQLite 断言订单真的落库</li>
+    </ul>
+  </div>
+
+  <div class="card login-card">
+    <h2>登录测试账号</h2>
+    <p class="muted">演示账号已经内置，打开就能用。</p>
+
+    <form method="post" action="/login" class="stack" data-testid="login-form">
+      <label for="username">用户名</label>
+      <input id="username" name="username" type="text" autocomplete="username"
+             value="{{ username|default('') }}" placeholder="demo"
+             data-testid="login-username" required>
+
+      <label for="password">密码</label>
+      <input id="password" name="password" type="password" autocomplete="current-password"
+             placeholder="Demo123!" data-testid="login-password" required>
+
+      <button type="submit" class="btn btn-primary btn-block" data-testid="login-submit">
+        登录
+      </button>
+    </form>
+
+    <div class="demo-box">
+      <span class="demo-label">测试账号</span>
+      <code>{{ demo_username }} / {{ demo_password }}</code>
+    </div>
+  </div>
+</section>
+{% endblock %}

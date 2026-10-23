@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}订单 {{ order.order_no }} · ShopLite{% endblock %}
+
+{% block content %}
+<section class="confirmation" data-testid="order-confirmation">
+  <div class="confirmation-icon">✓</div>
+  <p class="eyebrow">PAYMENT SUCCESS</p>
+  <h1>下单成功</h1>
+  <p class="muted">订单已经写入数据库，库存也已扣减。</p>
+  <p class="order-number">
+    订单号：<code data-testid="order-number">{{ order.order_no }}</code>
+  </p>
+</section>
+
+<div class="checkout-layout">
+  <div class="card">
+    <h2>订单商品</h2>
+    {% for item in order["items"] %}
+    <div class="checkout-item" data-testid="order-item-{{ item.product_id }}">
+      <div>
+        <strong>{{ item.name }}</strong>
+        <p class="muted small">{{ item.quantity }} × {{ item.unit_price_cents|money }}</p>
+      </div>
+      <span>{{ item.line_total_cents|money }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <aside class="card summary">
+    <h2>金额</h2>
+    <div class="summary-line">
+      <span>商品小计</span>
+      <span>{{ order.subtotal_cents|money }}</span>
+    </div>
+    <div class="summary-line">
+      <span>优惠</span>
+      <span data-testid="order-discount">- {{ order.discount_cents|money }}</span>
+    </div>
+    <div class="summary-line total-line">
+      <span>实付</span>
+      <strong data-testid="order-total">{{ order.total_cents|money }}</strong>
+    </div>
+    <p class="muted small">状态：<span data-testid="order-status">{{ order.status }}</span></p>
+    <a class="btn btn-primary btn-block" href="/products" data-testid="back-to-products">
+      继续购物
+    </a>
+    <a class="btn btn-block" href="/orders" data-testid="view-all-orders">查看全部订单</a>
+  </aside>
+</div>
+{% endblock %}
