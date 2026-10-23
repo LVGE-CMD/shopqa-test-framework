@@ -278,7 +278,7 @@ def pytest_sessionfinish(session, exitstatus):
                 "name": "ShopQA Local",
                 "type": "local",
                 "buildName": f"local-{time.strftime('%Y%m%d-%H%M%S')}",
-                "reportName": "ShopQA 电商自动化测试报告",
+                "reportName": "ShopQA E-commerce Test Report",
             },
             ensure_ascii=False,
         ),
