@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from idlelib.rpc import response_queue
+
 import allure
 import pytest
 
@@ -176,3 +178,14 @@ class TestCart:
             assert my_cart.json()["total_quantity"] == 2
         finally:
             other.close()
+
+    @allure.story("查询")
+    @allure.title("新用户登录，购物车为空")
+    def test_cart_is_empty_new_users(self, auth_api):
+        response = auth_api.get("/api/cart")
+        assert_status(response, 200)
+        body = response.json()
+        assert_schema(body,CART_SCHEMA)
+        assert body["total_quantity"] == 0
+        assert body["items"] == []
+        assert body["subtotal_cents"] == 0
