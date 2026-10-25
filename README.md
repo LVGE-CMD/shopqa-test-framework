@@ -1,5 +1,7 @@
 # ShopQA · 电商系统自动化测试框架
 
+[![ShopQA Tests](https://github.com/LVGE-CMD/shopqa-test-framework/actions/workflows/tests.yml/badge.svg)](https://github.com/LVGE-CMD/shopqa-test-framework/actions/workflows/tests.yml)
+
 一个可以写进简历、也可以当面演示的 **API + Web UI 全链路自动化测试项目**。
 
 项目自带一个离线可运行的迷你电商系统 **ShopLite**，所以不依赖外网、不依赖别人的 Demo 网站。面试时打开 PyCharm 就能跑，不会出现“在我电脑上能跑”的尴尬。
