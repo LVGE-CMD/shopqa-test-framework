@@ -23,6 +23,9 @@ shoplite.db
 # 本地工具
 tools/
 
+# 本地学习笔记，不进入公开仓库
+local-notes/
+
 # IDE
 .idea/workspace.xml
 .idea/shelf/
