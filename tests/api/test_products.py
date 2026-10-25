@@ -65,6 +65,16 @@ class TestProducts:
             assert items == []
 
     @allure.story("搜索")
+    @allure.title("搜索空关键字返回所有商品")
+    def test_search_empty_keyword(self, api):
+        response = api.get("/api/products", params={"q": ""})
+
+        assert_status(response, 200)
+        body = response.json()
+        assert body["total"] == 7
+        assert len(body["items"]) == 7
+
+    @allure.story("搜索")
     @allure.title("搜索关键字不区分大小写")
     def test_search_is_case_insensitive(self, api):
         response = api.get("/api/products", params={"q": "USB"})
