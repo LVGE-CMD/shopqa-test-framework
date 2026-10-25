@@ -40,12 +40,23 @@ jobs:
           path: reports/allure-results
           if-no-files-found: ignore
 
+      - name: Set up Java for Allure
+        if: always()
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          curl -fsSL -o allure.zip https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.zip
+          unzip -q allure.zip -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/allure-2.29.0/bin" >> "$GITHUB_PATH"
+
       - name: Generate Allure report
         if: always()
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: reports/allure-results
-          allure_report: allure-report
+        run: allure generate reports/allure-results -o allure-report --clean
 
       - name: Upload Allure report
         if: always()
