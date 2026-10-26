@@ -70,7 +70,7 @@ shopqa-test-framework/
 │   └── orders_page.py
 ├── tests/
 │   ├── conftest.py              # 启动服务、浏览器、用户、登录态 fixture
-│   ├── api/                     # 43 条接口用例
+│   ├── api/                     # 44 条接口用例
 │   ├── ui/                      # 14 条 UI 用例
 │   └── helpers.py
 ├── data/                        # YAML 测试数据
@@ -151,7 +151,7 @@ allure serve reports\allure-results
 
 ![Allure 报告](docs/images/05-allure-overview.png)
 
-*57 条用例全部通过，报告里能看到 43 条接口 + 14 条 UI 的分组。*
+*58 条用例全部通过，报告里能看到 44 条接口 + 14 条 UI 的分组。*
 
 ### 4.5 在 Allure 里看参数化用例的标题
 

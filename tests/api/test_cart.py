@@ -138,6 +138,22 @@ class TestCart:
         assert_status(response, 422)
         assert_schema(response.json(), {"type": "object", "required": ["detail"]})
 
+    @allure.story("校验")
+    @allure.title("修改购物车数量为 0 返回 422")
+    def test_update_quantity_zero(self, auth_api, find_product):
+        product = find_product("机械键盘 Pro")
+        auth_api.post(
+            "/api/cart/items",
+            json={"product_id": product["id"], "quantity": 1},
+        )
+
+        response = auth_api.patch(
+            f"/api/cart/items/{product['id']}",
+            json={"quantity": 0},
+        )
+
+        assert_status(response, 422)
+
     @allure.story("商品")
     @allure.title("加入不存在的商品返回 404")
     def test_add_missing_product(self, auth_api):
@@ -185,7 +201,7 @@ class TestCart:
         response = auth_api.get("/api/cart")
         assert_status(response, 200)
         body = response.json()
-        assert_schema(body,CART_SCHEMA)
+        assert_schema(body, CART_SCHEMA, "空购物车")
         assert body["total_quantity"] == 0
         assert body["items"] == []
         assert body["subtotal_cents"] == 0
