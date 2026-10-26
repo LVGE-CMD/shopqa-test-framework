@@ -70,6 +70,14 @@ class ApiClient:
                     attachment_type=allure.attachment_type.JSON,
                 )
 
+            params = kwargs.get("params")
+            if params:
+                allure.attach(
+                    _pretty(params),
+                    name="查询参数",
+                    attachment_type=allure.attachment_type.JSON,
+                )
+
             logger.info(
                 "%s %s -> %s (%.0f ms)",
                 method.upper(),
