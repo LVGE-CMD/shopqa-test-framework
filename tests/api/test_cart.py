@@ -154,6 +154,10 @@ class TestCart:
 
         assert_status(response, 422)
 
+        cart = auth_api.get("/api/cart")
+        assert_status(cart, 200)
+        assert cart.json()["items"][0]["quantity"] == 1
+
     @allure.story("商品")
     @allure.title("加入不存在的商品返回 404")
     def test_add_missing_product(self, auth_api):
