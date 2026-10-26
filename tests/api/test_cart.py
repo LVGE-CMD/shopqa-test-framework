@@ -138,25 +138,20 @@ class TestCart:
         assert_status(response, 422)
         assert_schema(response.json(), {"type": "object", "required": ["detail"]})
 
-    @allure.story("校验")
-    @allure.title("修改购物车数量为 0 返回 422")
-    def test_update_quantity_zero(self, auth_api, find_product):
+    @allure.story("修改")
+    @allure.title("修改数量为 0 被拒绝，购物车保持 1")
+    def test_quantity_turn_zero(self, auth_api, find_product):
         product = find_product("机械键盘 Pro")
         auth_api.post(
-            "/api/cart/items",
-            json={"product_id": product["id"], "quantity": 1},
-        )
-
-        response = auth_api.patch(
-            f"/api/cart/items/{product['id']}",
-            json={"quantity": 0},
-        )
-
+            "/api/cart/items", json={"product_id": product["id"], "quantity": 1})
+        response = auth_api.patch(f"/api/cart/items/{product['id']}", json={ "quantity": 0})
         assert_status(response, 422)
-
         cart = auth_api.get("/api/cart")
         assert_status(cart, 200)
-        assert cart.json()["items"][0]["quantity"] == 1
+        assert cart.json()["items"][0]['quantity'] == 1
+
+
+
 
     @allure.story("商品")
     @allure.title("加入不存在的商品返回 404")
