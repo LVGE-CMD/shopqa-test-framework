@@ -152,6 +152,32 @@ def auth_api(api: ApiClient, user: dict) -> ApiClient:
 
 
 @pytest.fixture()
+def auth_api_factory(base_url: str):
+    clients: list[ApiClient] = []
+
+    def create() -> ApiClient:
+        username = f"qa_other_{uuid.uuid4().hex[:8]}"
+        password = "Passw0rd!"
+        client = ApiClient(base_url)
+        response = client.post(
+            "/api/auth/register",
+            json={"username": username, "password": password},
+        )
+        assert response.status_code == 201, response.text
+
+        login = client.login(username, password)
+        assert login.status_code == 200, login.text
+
+        clients.append(client)
+        return client
+
+    yield create
+
+    for client in clients:
+        client.close()
+
+
+@pytest.fixture()
 def products(api: ApiClient) -> list[dict]:
     response = api.get("/api/products")
     assert response.status_code == 200, response.text

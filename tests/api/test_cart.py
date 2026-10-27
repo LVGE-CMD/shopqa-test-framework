@@ -2,16 +2,11 @@
 
 from __future__ import annotations
 
-from idlelib.rpc import response_queue
-
 import allure
 import pytest
-
-from framework.api_client import ApiClient
 from framework.assertions import assert_schema, assert_status
 from framework.db import count
 from framework.schemas import CART_SCHEMA, ERROR_SCHEMA
-from tests.helpers import register_and_login
 
 INVALID_QUANTITIES = [0, -1, 100]
 
@@ -177,22 +172,22 @@ class TestCart:
 
     @allure.story("隔离")
     @allure.title("用户只能看到自己的购物车")
-    def test_cart_is_isolated_between_users(self, base_url, auth_api, find_product, user):
+    def test_cart_is_isolated_between_users(
+        self, auth_api, find_product, auth_api_factory
+    ):
         product = find_product("机械键盘 Pro")
         auth_api.post(
             "/api/cart/items", json={"product_id": product["id"], "quantity": 2}
         )
 
-        other, other_user = register_and_login(base_url)
-        try:
-            other_cart = other.get("/api/cart")
-            assert_status(other_cart, 200)
-            assert other_cart.json()["items"] == []
+        other = auth_api_factory()
 
-            my_cart = auth_api.get("/api/cart")
-            assert my_cart.json()["total_quantity"] == 2
-        finally:
-            other.close()
+        other_cart = other.get("/api/cart")
+        assert_status(other_cart, 200)
+        assert other_cart.json()["items"] == []
+
+        my_cart = auth_api.get("/api/cart")
+        assert my_cart.json()["total_quantity"] == 2
 
     @allure.story("查询")
     @allure.title("新用户登录，购物车为空")
