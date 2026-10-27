@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import allure
-from playwright.sync_api import Locator, Page
+from playwright.sync_api import Locator, Page, expect
 
 if TYPE_CHECKING:
     from playwright.sync_api import Page as PlaywrightPage
@@ -33,6 +33,9 @@ class BasePage:
 
     def is_visible(self, test_id: str) -> bool:
         return self.locator(test_id).is_visible()
+
+    def expect_visible(self, test_id: str, timeout: int = 5000) -> None:
+        expect(self.locator(test_id)).to_be_visible(timeout=timeout)
 
     def wait_for_url(self, pattern: str) -> None:
         self.page.wait_for_url(pattern)

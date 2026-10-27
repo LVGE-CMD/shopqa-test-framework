@@ -34,6 +34,10 @@ class ProductsPage(BasePage):
             for item in self.page.locator('[data-testid^="product-name-"]').all()
         ]
 
+    def no_product_message(self) -> str:
+        self.expect_visible("no-products")
+        return self.text_of("no-products")
+
     @allure.step("把商品 {product_id} 加入购物车")
     def add_to_cart(self, product_id: int) -> CartPage:
         self.locator(f"add-to-cart-{product_id}").click()

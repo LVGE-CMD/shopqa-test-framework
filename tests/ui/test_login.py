@@ -94,8 +94,8 @@ class TestProductsPage:
 
         products_page.search("不存在的商品")
 
-        assert products_page.locator("no-products").is_visible()
-        assert "没有找到“不存在的商品”" in products_page.text_of("no-products")
+        message = products_page.no_product_message()
+        assert "没有找到“不存在的商品”" in message
         assert products_page.product_names() == []
 
 
