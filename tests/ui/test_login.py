@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import allure
 import pytest
+from pyexpat.errors import messages
 
 from pages.login_page import LoginPage
 from pages.products_page import ProductsPage
@@ -38,10 +39,10 @@ class TestLogin:
         login_page = LoginPage(page)
         login_page.goto()
 
-        login_page.login(DEMO_USERNAME, "WrongPass1!")
+        message = login_page.login_expect_error(DEMO_USERNAME, "WrongPass1!")
 
         assert "/login" in page.url
-        assert login_page.error_message() == "用户名或密码错误"
+        assert message == "用户名或密码错误"
         assert login_page.is_loaded()
 
     @allure.story("访问控制")
