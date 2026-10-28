@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dbm import error
+
 import allure
 import pytest
 
@@ -77,7 +79,8 @@ class TestShoppingFlow:
 
         assert cart_page.subtotal() == "¥100.00"
         checkout_page = cart_page.go_to_checkout()
-        order_page = checkout_page.place_order("QA10")
+        checkout_page.apply_coupon("QA10")
+        order_page = checkout_page.place_order()
 
         assert order_page.is_success()
         assert order_page.discount() == "- ¥10.00"
@@ -92,7 +95,8 @@ class TestShoppingFlow:
         cart_page = products_page.add_to_cart(product["id"])
 
         checkout_page = cart_page.go_to_checkout()
-        error = checkout_page.submit_expect_error("QA10")
+        checkout_page.apply_coupon("QA10")
+        error = checkout_page.submit_expect_error()
 
         assert "优惠券 QA10 需满" in error
         assert "/checkout" in page.url

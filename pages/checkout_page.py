@@ -12,17 +12,20 @@ class CheckoutPage(BasePage):
     def subtotal(self) -> str:
         return self.text_of("checkout-subtotal")
 
-    @allure.step("使用优惠券 {coupon_code} 并提交订单")
-    def place_order(self, coupon_code: str = "") -> OrderDetailPage:
-        if coupon_code:
-            self.locator("coupon-input").fill(coupon_code)
+    @allure.step("使用优惠券{coupon_code}")
+    def apply_coupon(self, coupon_code: str)->"CheckoutPage":
+        self.locator("coupon-input").fill(coupon_code)
+        return self
+
+
+    @allure.step("提交订单")
+    def place_order(self) -> OrderDetailPage:
         self.locator("place-order").click()
         self.wait_for_url("**/orders/*")
         return OrderDetailPage(self.page)
 
-    def submit_expect_error(self, coupon_code: str = "") -> str:
-        if coupon_code:
-            self.locator("coupon-input").fill(coupon_code)
+    def submit_expect_error(self) -> str:
         self.locator("place-order").click()
         self.page.wait_for_load_state("networkidle")
+        self.expect_visible("flash-error")
         return self.text_of("flash-error")
