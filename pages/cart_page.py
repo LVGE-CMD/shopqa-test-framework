@@ -28,6 +28,15 @@ class CartPage(BasePage):
         self.page.wait_for_load_state("networkidle")
         return self
 
+    @allure.step("把商品{product_id}的数量改成{quantity}，预期失败")
+    def update_quantity_expect_error(self, product_id: int, quantity: int) -> str:
+        self.locator(f"cart-qty-{product_id}").fill(str(quantity))
+        self.locator(f"cart-qty-{product_id}").evaluate("el => el.form.submit()")
+        self.page.wait_for_load_state("networkidle")
+        self.expect_visible("flash-error")
+        return self.text_of("flash-error")
+
+
     @allure.step("从购物车移除商品 {product_id}")
     def remove(self, product_id: int) -> "CartPage":
         self.locator(f"remove-item-{product_id}").click()

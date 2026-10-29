@@ -7,6 +7,7 @@ from dbm import error
 import allure
 import pytest
 
+from app.main import products_page
 from framework.db import count, fetch_one
 from pages.cart_page import CartPage
 from pages.login_page import LoginPage
@@ -64,6 +65,21 @@ class TestShoppingFlow:
 
         cart_page.remove(product["id"])
         assert cart_page.is_empty()
+
+    @allure.story("购物车")
+    @allure.title("修改数量为 0 被拒绝并提示")
+    def test_update_invalid_show_error(self, page, login_as, find_product):
+        product = find_product("无线鼠标 Lite")
+        products_page = login_as()
+        products_page.wait_for_url("**/products*")
+        cart_page = products_page.add_to_cart(product["id"])
+
+        error = cart_page.update_quantity_expect_error(product["id"], 0)
+
+        assert "购买数量必须在 1 到 99 之间" in error
+        assert cart_page.quantity_of(product["id"]) == "1"
+        assert "/cart" in page.url
+
 
     @allure.story("优惠券")
     @allure.title("购物车满 100 元时 QA10 优惠 10%")
