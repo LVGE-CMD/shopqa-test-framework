@@ -18,7 +18,7 @@
     {% for item in order["items"] %}
     <div class="checkout-item" data-testid="order-item-{{ item.product_id }}">
       <div>
-        <strong>{{ item.name }}</strong>
+        <strong data-testid="order-item-name-{{item.product_id}}">{{ item.name }}</strong>
         <p class="muted small">{{ item.quantity }} × {{ item.unit_price_cents|money }}</p>
       </div>
       <span>{{ item.line_total_cents|money }}</span>

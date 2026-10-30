@@ -19,6 +19,12 @@ class OrdersPage(BasePage):
             return False
         return row.count() >= 1
 
+    def order_numbers(self) -> list[str]:
+        return [
+            item.inner_text().strip()
+            for item in self.page.locator('[data-testid^="order-no-"]').all()
+        ]
+
     @allure.step("打开订单号包含 {order_no} 的订单")
     def open_order(self, order_no: str):
         from pages.order_detail_page import OrderDetailPage

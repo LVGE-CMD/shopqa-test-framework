@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from os import name
+
 import allure
 
 from pages.base_page import BasePage
@@ -13,6 +15,12 @@ class OrderDetailPage(BasePage):
 
     def order_number(self) -> str:
         return self.text_of("order-number")
+
+    def item_names(self) -> list[str]:
+        return [
+            item.inner_text().strip()
+            for item in self.page.locator('[data-testid^="order-item-name-"]').all()
+        ]
 
     def total(self) -> str:
         return self.text_of("order-total")

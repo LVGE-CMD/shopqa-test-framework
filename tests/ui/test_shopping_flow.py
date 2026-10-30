@@ -143,7 +143,9 @@ class TestShoppingFlow:
         orders_page = OrdersPage(page)
         orders_page.goto()
 
-        assert orders_page.has_order(order_no)
+        assert order_no in orders_page.order_numbers()
+
         detail = orders_page.open_order(order_no)
         assert detail.order_number() == order_no
+        assert product["name"] in detail.item_names()
         assert detail.total() == "¥29.00"
